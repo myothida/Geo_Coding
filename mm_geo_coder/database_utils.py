@@ -1,10 +1,10 @@
 import sqlite3
 import pandas as pd
-from .config import get_database_path
+from .config import DB_PATH
 
 class DatabaseHandler:
     def __init__(self):
-        self.db_path = get_database_path()
+        self.db_path = DB_PATH
         self.conn = None
 
     def connect(self):
