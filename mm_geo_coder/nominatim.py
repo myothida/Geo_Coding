@@ -26,3 +26,25 @@ class Nominatim:
         results = response.json()
         
         return results
+    
+    def search_in_nominatim_reverse(self, latitude, longitude):
+        location = self.get_location_from_nominatim_reverse(latitude, longitude)        
+        if location.get('error', None) is None:
+            return {
+            "address": location['display_name'],
+            "latitude": location['lat'],
+            "longitude": location['lon'],
+            "pcode": location['address'].get('postcode', None),            
+            }
+        return None
+    
+    def get_location_from_nominatim_reverse(self, latitude, longitude):
+        url = "https://nominatim.openstreetmap.org/reverse"
+        params = {"lat": latitude, "lon": longitude, "format": "json","addressdetails": 1,"limit": 1}
+        headers = {"User-Agent": "MMGeoCode/1.0"}
+        response = requests.get(url, params=params, headers=headers)
+        time.sleep(1)  
+        results = response.json()
+        
+        return results
+

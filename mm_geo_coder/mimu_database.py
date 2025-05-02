@@ -20,6 +20,29 @@ class MimuDatabase:
                 return result[0:limit]
             else:
                 return result
+            
+    def search_in_mimu_reverse(self, latitude, longitude):
+        db_handler = DatabaseHandler()
+        base_table1 = db_handler.extract_base_table("wards") 
+        base_table2 = db_handler.extract_base_table("villages")
+        base_table = pd.concat([base_table1, base_table2], ignore_index=True)  
+        base_table = base_table.drop_duplicates(subset=['latitude', 'longitude'], keep='first')
+        if base_table.empty:
+            return None
+        else:            
+            result = base_table[(base_table['latitude'] == latitude) & (base_table['longitude'] == longitude)]
+            if result.empty:
+                return None
+            else:                
+                result = result.iloc[0]  
+                print(result)              
+                return {
+                    "address": '၊ '.join([str(result[col]) for col in list(result.index) if (col.endswith('mmr') and pd.notna(result[col]))]),
+                    "latitude": latitude,
+                    "longitude": longitude,                    
+                }
+
+
 
     def get_location_from_mimu(self, parsed_address, parsed_levels):
         if not parsed_address or not parsed_levels:
