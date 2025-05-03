@@ -1,6 +1,6 @@
 [project]
 name = "mm_geo_coder"
-version = "0.2.0"
+version = "0.2.1"
 description = "A Goe_coder to locate the coordinates of addresses from Myanmar"
 authors = [{ name="myothida", email="mmdt@istarvz.com" },]
 readme = "README.md"

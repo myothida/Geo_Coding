@@ -24,8 +24,11 @@ def clean_address(address):
 def remove_location_words(text):
     location_words = ["တိုင်း", "တိုင်းဒေသကြီး","ပြည်နယ်", "ခရိုင်", "မြို့နယ်", "မြို့", "ရပ်ကွက်", "ရပ်", "ရွာ", "ကျေးရွာ"]
     pattern = '|'.join([re.escape(word) for word in location_words])
-    cleaned_text = re.sub(pattern, '', text)
-    return cleaned_text.strip()
+    if text is not None:
+        cleaned_text = re.sub(pattern, '', text)
+        return cleaned_text.strip()
+    else:
+        return None
 
 def find_indices(lst, target, threshold=THRESHOLD):
     matches = process.extract(target, lst, score_cutoff=threshold)

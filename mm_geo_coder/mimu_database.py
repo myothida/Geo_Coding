@@ -43,16 +43,16 @@ class MimuDatabase:
                 }
 
 
-
     def get_location_from_mimu(self, parsed_address, parsed_levels):
         if not parsed_address or not parsed_levels:
             return None
+        
         table_name = "villages" if {"village", "village_tract"} & parsed_address.keys() else "wards"
         keys_to_remove = ["ward", "town"] if table_name == "villages" else ["village", "village_tract"]
-        for key in keys_to_remove:
+        for key in keys_to_remove:            
             parsed_address.pop(key, None)      
             parsed_levels.remove(key) if key in parsed_levels else None
-            
+        
         clean_parsed_address = {level: remove_location_words(parsed_address[level]) for level in parsed_levels}
         
         result = self.get_partial_match(table_name, clean_parsed_address, parsed_levels)
